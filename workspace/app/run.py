@@ -43,8 +43,24 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
-    # create visuals
-    # TODO: Below is an example - modify to create your own visuals
+    # Gerrix code
+    # Data for the 1rst new visual related to the total number of medical messages 
+    hospital_counts = df[df['hospitals'] == 1].shape[0]
+    medical_help_counts = df[df['medical_help'] == 1].shape[0]
+    medical_product_counts = df[df['medical_products'] == 1].shape[0]
+    medical_category_counts = [hospital_counts,medical_help_counts,medical_product_counts]
+    medical_category_names = ['hospital','medical help','medical products'] 
+    
+    # Data for the 2d new visual related to the total number of missing people 
+    search_and_rescue_counts = df[df['search_and_rescue'] == 1].shape[0]
+    child_alone_counts = df[df['child_alone'] == 1].shape[0]
+    missing_people_counts = df[df['missing_people'] == 1].shape[0]
+    missing_category_counts = [search_and_rescue_counts,child_alone_counts,missing_people_counts]
+    missing_category_names = ['search and rescue','child alone','missing people']
+    
+    # End Gerrix code
+                                                      
+
     graphs = [
         {
             'data': [
@@ -53,18 +69,40 @@ def index():
                     y=genre_counts
                 )
             ],
-
             'layout': {
                 'title': 'Distribution of Message Genres',
-                'yaxis': {
-                    'title': "Count"
-                },
-                'xaxis': {
-                    'title': "Genre"
-                }
+                'yaxis': {'title': "Count"},
+                'xaxis': {'title': "Genre"}
             }
+        },
+        {
+            'data': [
+                Bar(
+                    x=medical_category_names,
+                    y=medical_category_counts
+                )
+                ],
+            'layout': {
+                'title': 'Message Counts Related to Medical Categories',
+                'yaxis': {'title': "Count"},
+                'xaxis': {'title': "Medical Category"}
+                }
+        },
+        {
+            'data': [
+                Bar(
+                    x=missing_category_names,
+                    y=missing_category_counts
+                )
+                ],
+            'layout': {
+                'title': 'Message Counts Related to Missing People',
+                'yaxis': {'title': "Count"},
+                'xaxis': {'title': "Missing Category"}
+                }
         }
-    ]
+        ]
+
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
@@ -72,7 +110,6 @@ def index():
     
     # render web page with plotly graphs
     return render_template('master.html', ids=ids, graphJSON=graphJSON)
-
 
 # web page that handles user query and displays model results
 @app.route('/go')
