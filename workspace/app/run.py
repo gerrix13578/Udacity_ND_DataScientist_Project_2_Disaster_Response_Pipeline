@@ -44,14 +44,16 @@ def index():
     genre_names = list(genre_counts.index)
     
     # Gerrix code
-    # Data for the 1rst new visual related to the total number of medical messages 
+    # Data for the 1rst new visual related to the total number of medical messages
+    # Here 3 categories are taken related to medical and hospital topics
     hospital_counts = df[df['hospitals'] == 1].shape[0]
     medical_help_counts = df[df['medical_help'] == 1].shape[0]
     medical_product_counts = df[df['medical_products'] == 1].shape[0]
     medical_category_counts = [hospital_counts,medical_help_counts,medical_product_counts]
     medical_category_names = ['hospital','medical help','medical products'] 
     
-    # Data for the 2d new visual related to the total number of missing people 
+    # Data for the 2d new visual related to the total number of missing people
+    # Here 3 categories are taken related to missing people or people that appear in a place without relatives
     search_and_rescue_counts = df[df['search_and_rescue'] == 1].shape[0]
     child_alone_counts = df[df['child_alone'] == 1].shape[0]
     missing_people_counts = df[df['missing_people'] == 1].shape[0]
@@ -60,7 +62,11 @@ def index():
     
     # End Gerrix code
                                                       
-
+    # There are 3 Graphs shown there
+    # 1st Graph: Distribution of Message per Genres
+    # 2nd Graph: Distribution of Messages related to Medical Categories
+    # 3rd Graph: Distribution of Messages related to missing people or people that appear in one place without relatives
+    
     graphs = [
         {
             'data': [
